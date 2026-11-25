@@ -1,0 +1,20 @@
+# Local dependencies and credentials
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Figma source files and local inspection outputs
+*.fig
+*.deck
+*.jam
+*.zip
+inspection/
+inspection-*/
+inputs/
+outputs/
+*.raw.json
+*.report.json
+
+# Local OS files
+.DS_Store
