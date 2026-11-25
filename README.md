@@ -32,11 +32,14 @@ Page IDs use the sessionID:localID format. Output: `inspection-scope/scope.raw.j
 
 The report contains page/section inventory, selected-page node properties, candidate component dependency subtrees, referenced style candidates, and diagnostic lists of instances without a candidate and ambiguous references. It preserves hidden layers, rich text data, variable bindings, instance overrides, layout and visual attributes. Candidate matching is not an effective-style or instance-override resolver; unresolved or ambiguous references must be reviewed. No CSS theme is generated automatically.
 
+The scope export additionally includes ancestor records (without automatically exporting unrelated sibling trees), property-definition owners, raw document-wide variable collections and variables, candidate dependencies discovered through symbol swaps, a typed reference ledger with requested versions, an override-path inventory, and missing/ambiguous reference diagnostics. These fields are additive to the original scope format. They do not evaluate effective visibility, property defaults, mode selection, or override precedence. Missing external library data cannot be reconstructed from a local file.
+
 ```sh
 npm run check
+npm test
 ```
 
-Checks script syntax only.
+Checks syntax and synthetic dependency-closure cases. The scope export includes all decoded document variables, including string values; inspect locally before sharing.
 
 ## Privacy
 
