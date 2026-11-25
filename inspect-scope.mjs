@@ -1,6 +1,7 @@
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { parseFigBinary } from 'openfig-core';
+import { expandScope } from './scope-dependencies.mjs';
 
 function extractScope(allNodes, pageIds) {
   const guidId = g => g && Number.isInteger(g.sessionID) && Number.isInteger(g.localID) ? `${g.sessionID}:${g.localID}` : null;
@@ -105,7 +106,7 @@ if (!input || !pageIds.length || pageIds.some(id => !/^\d+:\d+$/.test(id))) {
   process.exit(1);
 }
 const doc = parseFigBinary(new Uint8Array(readFileSync(resolve(input))));
-const result = extractScope(doc.nodes, [...new Set(pageIds)]);
+const result = expandScope(doc.nodes, extractScope(doc.nodes, [...new Set(pageIds)]));
 const output = resolve('inspection-scope');
 mkdirSync(output, { recursive: true });
 const file = join(output, 'scope.raw.json');
