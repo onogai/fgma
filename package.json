@@ -6,6 +6,7 @@
   "scripts": {
     "inspect": "node inspect-tokens.mjs",
     "inspect:scope": "node inspect-scope.mjs",
-    "check": "node --check inspect-tokens.mjs && node --check inspect-scope.mjs"
+    "check": "node --check inspect-tokens.mjs && node --check inspect-scope.mjs && node --check scope-dependencies.mjs && node --check scope-dependencies.test.mjs",
+    "test": "node scope-dependencies.test.mjs"
   }
 }
