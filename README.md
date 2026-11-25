@@ -1,33 +1,43 @@
 # Figma token inspection
 
-Local, read-only inspection of an extracted Figma `canvas.fig` using `openfig-core`. The goal is to understand variable collections, modes, aliases and styles before implementing normalized design-token extraction and CSS theme generation.
+Local, read-only tools for inspecting an extracted Figma `canvas.fig` and collecting evidence for a CSS theme from selected design pages.
 
 ## Setup
 
-Requires Node.js and npm. Install the decoder with an exact version (prefer the version already validated in your existing local project):
+Requires Node.js and npm. Install the decoder using the version already validated in your local project:
 
 ```sh
-npm install --save-exact openfig-core
+npm install --no-save --package-lock=false openfig-core@VERSION
 ```
 
-If you know the existing version, use `npm install --save-exact openfig-core@VERSION` instead. Keep the resulting package lock for reproducibility.
+Replace VERSION with the installed/validated version. If the dependency is already available in local node_modules, skip this step.
 
-## Run
+## Whole-document inventory
 
 ```sh
-node inspect-tokens.mjs /path/to/canvas.fig inspection
+npm run inspect -- /path/to/canvas.fig inspection
 ```
 
-The input must be the extracted binary canvas, not the entire exported archive. The script defaults to `canvas.fig` and output directory `inspection`.
+Outputs `variables.raw.json` (collections, modes and variables) and `structure.report.json` (page IDs, node counts and field frequencies).
 
-Outputs:
-- `variables.raw.json`: original variable and collection records, preserving modes and aliases.
-- `structure.report.json`: node counts, page mapping, field frequencies and style diagnostics.
+## Selected-page evidence
+
+Choose the page IDs from the structure report.
+
+```sh
+npm run inspect:scope -- /path/to/canvas.fig PAGE_ID [PAGE_ID ...]
+```
+
+Page IDs use the sessionID:localID format. Output: `inspection-scope/scope.raw.json`.
+
+The report contains page/section inventory, selected-page node properties, candidate component dependency subtrees, referenced style candidates, and diagnostic lists of instances without a candidate and ambiguous references. It preserves hidden layers, rich text data, variable bindings, instance overrides, layout and visual attributes. Candidate matching is not an effective-style or instance-override resolver; unresolved or ambiguous references must be reviewed. No CSS theme is generated automatically.
+
+```sh
+npm run check
+```
+
+Checks script syntax only.
 
 ## Privacy
 
-This repository is public. Keep source design files, credentials and generated reports local. Review output before sharing it anywhere. Custom output directories outside the ignored paths are not automatically protected.
-
-## Status
-
-Initial inspection script imported from prior work. Runtime validation against the actual canvas, token normalization, alias resolution and CSS generation remain to be completed.
+This repository is public. Never commit source designs, generated reports, client-specific IDs, credentials or private data. Review generated JSON before sharing; it can include design text, names and overrides. Keep outputs in ignored directories.
