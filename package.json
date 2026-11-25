@@ -1,0 +1,10 @@
+{
+  "name": "fgma",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "inspect": "node inspect-tokens.mjs",
+    "check": "node --check inspect-tokens.mjs"
+  }
+}
