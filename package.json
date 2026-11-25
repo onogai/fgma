@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "inspect": "node inspect-tokens.mjs",
-    "check": "node --check inspect-tokens.mjs"
+    "inspect:scope": "node inspect-scope.mjs",
+    "check": "node --check inspect-tokens.mjs && node --check inspect-scope.mjs"
   }
 }
